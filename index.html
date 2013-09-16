@@ -3,9 +3,80 @@
     <head>
         <meta charset="utf-8">
         <title>life game</title>
+         <link rel="stylesheet" type="text/css" href="./css/main.css">
         <script type="text/javascript" src="./js/lib/d3.v3.js"></script>
+        <script type="text/javascript" src="./js/main.js"></script>
+        <script type="text/javascript" src="./js/cell.js"></script>
     </head>
     <body>
         <h1>life game</h1>
+        <script>
+            // 定数
+            var CELL_INTERVAL = 10;
+            var CELL_PADDING = 1;
+            var START_ALIVE_RATE = 0.5;
+            
+            /*
+            // フィールドサイズの取得
+            var element = document.getElementById("gameField");
+            var computedStyle = document.defaultView.getComputedStyle(element, null);
+            var fieldWidth = parseInt(computedStyle.width, 10) || 0;
+            var fieldHeight = parseInt(computedStyle.height, 10) || 0;
+            console.log(fieldWidth, fieldHeight);
+            */
+            
+            // 縦・横のセル数の決定
+            var fieldWidth = 500;
+            var fieldHeight = 500;
+            var nCellsX = Math.floor(fieldWidth / CELL_INTERVAL);
+            var nCellsY = Math.floor(fieldHeight / CELL_INTERVAL);
+            
+            // セルの作成
+            cellMatrix = [];
+            for (var y = 0; y < nCellsY; ++y) {
+                for (var x = 0; x < nCellsX; ++x) {
+                    var c = Object.create(cell);
+                    c.row = y;
+                    c.column = x;
+                    if (Math.random() < START_ALIVE_RATE) {
+                        c.born([]);
+                    } else {
+                        c.die();
+                    }
+                    cellMatrix.push(c);
+                }
+            }
+            
+            // SVG
+            var svg = d3
+                .select("body")
+                .append("svg")
+                .attr("width", fieldWidth)
+                .attr("height", fieldHeight)
+                .attr("viewport-fill", "black");
+            
+            var rects = svg
+                .selectAll("rect")
+                .data(cellMatrix)
+                .enter()
+                .append("rect");
+                
+            rects
+                .attr("x", function(d) {
+                    return d.column * CELL_INTERVAL;
+                })
+                .attr("y", function(d) {
+                    return d.row * CELL_INTERVAL;
+                })
+                .attr("width", CELL_INTERVAL - CELL_PADDING)
+                .attr("height", CELL_INTERVAL - CELL_PADDING)
+                .attr("fill", function(d) {
+                    return d.getRgbString();
+                })
+            
+            
+            
+            
+        </script>
     </body>
 </html>
