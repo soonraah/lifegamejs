@@ -2,10 +2,10 @@ var field = {
     nRows: 1,
     nColumns: 1,
     cells: [],
-    initialize: function(nRows, nColumns, rate) {
-        this.nRows = nRows;
-        this.nColumns = nColumns;
-        for (var i = 0; i < nRows * nColumns; ++i) {
+    initialize: function(numRows, numColumns, rate) {
+        this.nRows = numRows;
+        this.nColumns = numColumns;
+        for (var i = 0; i < this.nRows * this.nColumns; ++i) {
             var c = Object.create(cell);
             if (Math.random() < rate) {
                 c.born([]);
@@ -34,7 +34,7 @@ var field = {
         } else if (c >= this.nColumns) {
             c -= this.nColumns;
         }
-        return r * nColumns + c;
+        return r * this.nColumns + c;
     },
     createNextGeneration: function() {
         var next = Object.create(this);
@@ -42,8 +42,8 @@ var field = {
         
         for (var r = 0; r < this.nRows; ++r) {
             for (var c = 0; c < this.nColumns; ++c) {
-                var arounds = getArounds(r, c);
-                cells[rowColumnToIndex(r, c)].goNextGeneration(arounds);
+                var arounds = this.getArounds(r, c);
+                this.cells[this.rowColumnToIndex(r, c)].goNextGeneration(arounds);
             }
         }
         
@@ -56,8 +56,8 @@ var field = {
                 if (r == 0 && c == 0) {
                     continue;
                 }
-                var index = rowColumnToIndex(row + r, column + c);
-                arounds.push(cells[index]);
+                var index = this.rowColumnToIndex(row + r, column + c);
+                arounds.push(this.cells[index]);
             }
         }
         return arounds;
