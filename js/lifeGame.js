@@ -13,10 +13,10 @@ var lifeGame = {
         this.nColumns = Math.floor(width / CELL_INTERVAL);
         this.gameField.initialize(this.nRows, this.nColumns, aliveRate);
         this.svg = svg;
-        this.updateSvg();
+        this.initSvg();
         
     },
-    updateSvg: function() {
+    initSvg: function() {
         rects = svg
             .selectAll("rect")
             .data(this.gameField.cells)
@@ -24,7 +24,6 @@ var lifeGame = {
             .append("rect");
         
         var gf = this.gameField;
-        var temp = [];
         rects
             .attr("x", function(d, i) {
                 return gf.indexToColumn(i) * CELL_INTERVAL;
@@ -35,18 +34,27 @@ var lifeGame = {
             .attr("width", CELL_INTERVAL - CELL_MARGIN)
             .attr("height", CELL_INTERVAL - CELL_MARGIN)
             .attr("fill", function(d) {
-                temp.push(d.isAlive);
                 return d.getRgbString();
             });
-        console.log(temp);
+    },
+    updateSvg: function() {
+        svg
+            .selectAll("rect")
+            .data(this.gameField.cells)
+            .transition()
+            .duration(0)
+            .attr("fill", function(d) {
+                return d.getRgbString();
+            });
     },
     start: function() {
         var lg = this;
         
         setInterval(function() {
-            lg.gameField = lg.gameField.createNextGeneration();
+            //lg.gameField = lg.gameField.createNextGeneration();
+            lg.gameField.update();
             lg.updateSvg();
-            //console.log("step.");
+            console.log("step.");
         }, 2000);
     }
 };

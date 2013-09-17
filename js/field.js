@@ -6,13 +6,13 @@ var field = {
         this.nRows = numRows;
         this.nColumns = numColumns;
         for (var i = 0; i < this.nRows * this.nColumns; ++i) {
-            var c = Object.create(cell);
+            var cell = new Cell();
             if (Math.random() < rate) {
-                c.born([]);
+                cell.born([]);
             } else {
-                c.die();
+                cell.die();
             }
-            this.cells.push(c);
+            this.cells.push(cell);
         }
     },
     indexToRow: function(index) {
@@ -26,28 +26,27 @@ var field = {
         if (r < 0) {
             r += this.nRows;
         } else if (r >= this.nRows) {
-            r -= this.nRows;
+            r = r - this.nRows;
         }
         var c = column;
         if (c < 0) {
             c += this.nColumns;
         } else if (c >= this.nColumns) {
-            c -= this.nColumns;
+            c = c - this.nColumns;
         }
         return r * this.nColumns + c;
     },
-    createNextGeneration: function() {
-        var next = Object.create(this);
-        next.initialize(this.nRows, this.nColumns, 0.0);
-        
+    update: function() {
+        newCells = []
         for (var r = 0; r < this.nRows; ++r) {
             for (var c = 0; c < this.nColumns; ++c) {
                 var arounds = this.getArounds(r, c);
-                this.cells[this.rowColumnToIndex(r, c)].goNextGeneration(arounds);
+                var newCell = new Cell();
+                newCell.goNextGeneration(arounds);
+                newCells.push(newCell);
             }
         }
-        
-        return next;
+        this.cells = newCells;
     },
     getArounds: function(row, column) {
         var arounds = [];

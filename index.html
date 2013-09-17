@@ -11,7 +11,6 @@
         <script type="text/javascript" src="./js/lifeGame.js"></script>
     </head>
     <body>
-        <h1>life game</h1>
         <script>
             // 縦・横のピクセル数
             var fieldWidth = 500;
@@ -26,7 +25,7 @@
                 .attr("viewport-fill", "black");
             
             // ゲームの初期化
-            lifeGame.initialize(fieldHeight, fieldWidth, 0.5, svg);
+            lifeGame.initialize(fieldHeight, fieldWidth, 0.3, svg);
             
             // ゲーム開始
             lifeGame.start();
