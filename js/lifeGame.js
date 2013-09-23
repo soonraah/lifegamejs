@@ -1,22 +1,21 @@
 var CELL_INTERVAL = 10;
 var CELL_MARGIN = 1;
 
-var lifeGame = {
-    gameField: null,
-    nRows: 1,
-    nColumns: 1,
-    rects: null,
-    svg: null,
-    initialize: function(height, width, aliveRate, svg) {
-        this.gameField = Object.create(field);
+function LifeGame() {
+    this.gameField = null;
+    this.nRows = 1;
+    this.nColumns = 1;
+    this.rects = null;
+    this.svg = null;
+    this.initialize = function(height, width, aliveRate, svg) {
+        this.gameField = new Field();
         this.nRows = Math.floor(height / CELL_INTERVAL);
         this.nColumns = Math.floor(width / CELL_INTERVAL);
         this.gameField.initialize(this.nRows, this.nColumns, aliveRate);
         this.svg = svg;
         this.initSvg();
-        
-    },
-    initSvg: function() {
+    };
+    this.initSvg = function() {
         rects = svg
             .selectAll("rect")
             .data(this.gameField.cells)
@@ -36,8 +35,8 @@ var lifeGame = {
             .attr("fill", function(d) {
                 return d.color.getRgbaString();
             });
-    },
-    updateSvg: function() {
+    };
+    this.updateSvg = function() {
         svg
             .selectAll("rect")
             .data(this.gameField.cells)
@@ -47,15 +46,14 @@ var lifeGame = {
                 // console.log(d.color.getRgbaString());
                 return d.color.getRgbaString();
             });
-    },
-    start: function() {
+    };
+    this.start = function() {
         var lg = this;
-        
         setInterval(function() {
             //lg.gameField = lg.gameField.createNextGeneration();
             lg.gameField.update();
             lg.updateSvg();
             console.log("step.");
-        }, 500);
-    }
+        }, 2000);
+    };
 };

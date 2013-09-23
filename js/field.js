@@ -1,8 +1,8 @@
-var field = {
-    nRows: 1,
-    nColumns: 1,
-    cells: [],
-    initialize: function(numRows, numColumns, rate) {
+function Field() {
+    this.nRows = 1;
+    this.nColumns = 1;
+    this.cells = [];
+    this.initialize = function(numRows, numColumns, rate) {
         this.nRows = numRows;
         this.nColumns = numColumns;
         this.cells = [];
@@ -10,14 +10,14 @@ var field = {
             var cell = new Cell(Math.random() < rate);
             this.cells.push(cell);
         }
-    },
-    indexToRow: function(index) {
+    };
+    this.indexToRow = function(index) {
         return Math.floor(index / this.nColumns);
-    },
-    indexToColumn: function(index) {
+    };
+    this.indexToColumn = function(index) {
         return index % this.nColumns;
-    },
-    rowColumnToIndex: function(row, column) {
+    };
+    this.rowColumnToIndex = function(row, column) {
         var r = row;
         if (r < 0) {
             r += this.nRows;
@@ -31,8 +31,8 @@ var field = {
             c = c - this.nColumns;
         }
         return r * this.nColumns + c;
-    },
-    update: function() {
+    };
+    this.update = function() {
         for (var r = 0; r < this.nRows; ++r) {
             for (var c = 0; c < this.nColumns; ++c) {
                 var arounds = this.getArounds(r, c);
@@ -42,8 +42,8 @@ var field = {
         for (var i = 0; i < this.cells.length; ++i) {
             this.cells[i].changeGeneration();
         }
-    },
-    getArounds: function(row, column) {
+    };
+    this.getArounds = function(row, column) {
         var arounds = [];
         for (var r = -1; r <= 1; ++r) {
             for (var c = -1; c <= 1; ++c) {
@@ -55,5 +55,5 @@ var field = {
             }
         }
         return arounds;
-    }
+    };
 };
