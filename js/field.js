@@ -5,13 +5,9 @@ var field = {
     initialize: function(numRows, numColumns, rate) {
         this.nRows = numRows;
         this.nColumns = numColumns;
+        this.cells = [];
         for (var i = 0; i < this.nRows * this.nColumns; ++i) {
-            var cell = new Cell();
-            if (Math.random() < rate) {
-                cell.born([]);
-            } else {
-                cell.die();
-            }
+            var cell = new Cell(Math.random() < rate);
             this.cells.push(cell);
         }
     },
@@ -37,16 +33,15 @@ var field = {
         return r * this.nColumns + c;
     },
     update: function() {
-        newCells = []
         for (var r = 0; r < this.nRows; ++r) {
             for (var c = 0; c < this.nColumns; ++c) {
                 var arounds = this.getArounds(r, c);
-                var newCell = new Cell();
-                newCell.goNextGeneration(arounds);
-                newCells.push(newCell);
+                this.cells[this.rowColumnToIndex(r, c)].predict(arounds);
             }
         }
-        this.cells = newCells;
+        for (var i = 0; i < this.cells.length; ++i) {
+            this.cells[i].changeGeneration();
+        }
     },
     getArounds: function(row, column) {
         var arounds = [];

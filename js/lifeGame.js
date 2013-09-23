@@ -34,7 +34,7 @@ var lifeGame = {
             .attr("width", CELL_INTERVAL - CELL_MARGIN)
             .attr("height", CELL_INTERVAL - CELL_MARGIN)
             .attr("fill", function(d) {
-                return d.getRgbString();
+                return d.color.getRgbaString();
             });
     },
     updateSvg: function() {
@@ -44,7 +44,8 @@ var lifeGame = {
             .transition()
             .duration(0)
             .attr("fill", function(d) {
-                return d.getRgbString();
+                // console.log(d.color.getRgbaString());
+                return d.color.getRgbaString();
             });
     },
     start: function() {
@@ -55,6 +56,6 @@ var lifeGame = {
             lg.gameField.update();
             lg.updateSvg();
             console.log("step.");
-        }, 2000);
+        }, 500);
     }
 };
