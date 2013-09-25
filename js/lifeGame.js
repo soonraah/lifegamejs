@@ -7,6 +7,7 @@ function LifeGame() {
     this.nColumns = 1;
     this.rects = null;
     this.svg = null;
+    this.timer = null;
     this.initialize = function(height, width, aliveRate, svg) {
         this.gameField = new Field();
         this.nRows = Math.floor(height / CELL_INTERVAL);
@@ -49,11 +50,14 @@ function LifeGame() {
     };
     this.start = function() {
         var lg = this;
-        setInterval(function() {
+        this.timer = setInterval(function() {
             //lg.gameField = lg.gameField.createNextGeneration();
             lg.gameField.update();
             lg.updateSvg();
             console.log("step.");
         }, 2000);
+    };
+    this.stop = function() {
+        clearInterval(this.timer);
     };
 };

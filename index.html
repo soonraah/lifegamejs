@@ -11,6 +11,10 @@
         <script type="text/javascript" src="./js/lifeGame.js"></script>
         <script language="javascript" type="text/javascript">
             var rule = null;
+            var lifeGame = null;
+            var svg = null;
+            var fieldHeight = 0;
+            var fieldWidth = 0;
             function setPattern() {
                 var index = document.getElementById("pattern").selectedValue();
                 switch (index) {
@@ -26,7 +30,21 @@
                         break;
                 }
             };
+            function createGame() {
+                var initialPopulationRate = document.getElementById("initialRate").value;
+                
+                // ゲームの初期化
+                lifeGame = new LifeGame();
+                lifeGame.initialize(fieldHeight, fieldWidth, initialPopulationRate, svg);
+                
+                // ゲーム開始
+                lifeGame.start();
+            };
             function onClickRestart() {
+                if (lifeGame) {
+                    lifeGame.stop();
+                }
+                createGame();
             };
         </script>
     </head>
@@ -41,28 +59,36 @@
             </select>
         </p>
         <p>
+            initial rate
+            <select name="initialRate" size=1 id="initialRate">
+                <option value=0.1>0.1</option>
+                <option value=0.2>0.2</option>
+                <option value=0.3>0.3</option>
+                <option value=0.4>0.4</option>
+                <option value=0.5>0.5</option>
+                <option value=0.6>0.6</option>
+                <option value=0.7>0.7</option>
+                <option value=0.8>0.8</option>
+                <option value=0.9>0.9</option>
+            </select>
+        </p>
+        <p>
             <button name="restart" id="restart" onclick="onClickRestart()">restart</button>
         </p>
         <script>
-            
             // 縦・横のピクセル数
             var fieldWidth = 300;
             var fieldHeight = 300;
             
             // SVG
-            var svg = d3
+            svg = d3
                 .select("body")
                 .append("svg")
                 .attr("width", fieldWidth)
                 .attr("height", fieldHeight)
                 .attr("viewport-fill", "black");
             
-            // ゲームの初期化
-            lifeGame = new LifeGame();
-            lifeGame.initialize(fieldHeight, fieldWidth, 0.3, svg);
-            
-            // ゲーム開始
-            lifeGame.start();
+            createGame();
             
         </script>
     </body>
