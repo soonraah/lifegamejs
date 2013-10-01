@@ -8,11 +8,11 @@ function LifeGame() {
     this.rects = null;
     this.svg = null;
     this.timer = null;
-    this.initialize = function(height, width, aliveRate, svg) {
+    this.initialize = function(height, width, aliveRate, svg, ruleId) {
         this.gameField = new Field();
         this.nRows = Math.floor(height / CELL_INTERVAL);
         this.nColumns = Math.floor(width / CELL_INTERVAL);
-        this.gameField.initialize(this.nRows, this.nColumns, aliveRate);
+        this.gameField.initialize(this.nRows, this.nColumns, aliveRate, ruleId);
         this.svg = svg;
         this.initSvg();
     };
@@ -55,7 +55,7 @@ function LifeGame() {
             lg.gameField.update();
             lg.updateSvg();
             console.log("step.");
-        }, 2000);
+        }, 200);
     };
     this.stop = function() {
         clearInterval(this.timer);

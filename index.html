@@ -4,38 +4,23 @@
         <meta charset="utf-8">
         <title>life game</title>
         <link rel="stylesheet" type="text/css" href="./css/main.css">
-        <script type="text/javascript" src="./js/lib/d3.v3.js"></script>
+        <script type="text/javascript" src="./js/lib/d3.v3.min.js"></script>
         <script type="text/javascript" src="./js/main.js"></script>
         <script type="text/javascript" src="./js/cell.js"></script>
         <script type="text/javascript" src="./js/field.js"></script>
         <script type="text/javascript" src="./js/lifeGame.js"></script>
         <script language="javascript" type="text/javascript">
-            var rule = null;
             var lifeGame = null;
             var svg = null;
             var fieldHeight = 0;
             var fieldWidth = 0;
-            function setPattern() {
-                var index = document.getElementById("pattern").selectedValue();
-                switch (index) {
-                    case 0:
-                        rule = [TO_DIE, TO_DIE, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
-                        break;
-                    case 1:
-                        rule = [TO_DIE, TO_DIE, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
-                        break;
-                    case 2:
-                    case 3:
-                    default:
-                        break;
-                }
-            };
             function createGame() {
-                var initialPopulationRate = document.getElementById("initialRate").value;
+                var patternId = parseInt(document.getElementById("pattern").value);
+                var initialPopulationRate = parseFloat(document.getElementById("initialRate").value);
                 
                 // ゲームの初期化
                 lifeGame = new LifeGame();
-                lifeGame.initialize(fieldHeight, fieldWidth, initialPopulationRate, svg);
+                lifeGame.initialize(fieldHeight, fieldWidth, initialPopulationRate, svg, patternId);
                 
                 // ゲーム開始
                 lifeGame.start();

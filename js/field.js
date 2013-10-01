@@ -2,7 +2,8 @@ function Field() {
     this.nRows = 1;
     this.nColumns = 1;
     this.cells = [];
-    this.initialize = function(numRows, numColumns, rate) {
+    this.ruleId = 1;
+    this.initialize = function(numRows, numColumns, rate, ruleId) {
         this.nRows = numRows;
         this.nColumns = numColumns;
         this.cells = [];
@@ -10,6 +11,7 @@ function Field() {
             var cell = new Cell(Math.random() < rate);
             this.cells.push(cell);
         }
+        this.ruleId = ruleId;
     };
     this.indexToRow = function(index) {
         return Math.floor(index / this.nColumns);
@@ -36,7 +38,7 @@ function Field() {
         for (var r = 0; r < this.nRows; ++r) {
             for (var c = 0; c < this.nColumns; ++c) {
                 var arounds = this.getArounds(r, c);
-                this.cells[this.rowColumnToIndex(r, c)].predict(arounds);
+                this.cells[this.rowColumnToIndex(r, c)].predict(arounds, this.ruleId);
             }
         }
         for (var i = 0; i < this.cells.length; ++i) {

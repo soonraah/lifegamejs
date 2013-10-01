@@ -5,8 +5,24 @@ var ADJAST_RATE = 0.2;
 var TO_DIE = 0;
 var TO_EXIST = 1;
 var TO_BORN = 2;
-// var RULE = [TO_DIE, TO_DIE, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
-var RULE = [TO_DIE, TO_EXIST, TO_EXIST, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
+
+var RULE_1 = [TO_DIE, TO_DIE, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
+var RULE_2 = [TO_DIE, TO_EXIST, TO_EXIST, TO_EXIST, TO_BORN, TO_DIE, TO_DIE, TO_DIE, TO_DIE];
+var RULE_3 = [TO_DIE, TO_BORN, TO_BORN, TO_DIE, TO_EXIST, TO_DIE, TO_EXIST, TO_DIE, TO_DIE];
+var RULE_4 = [TO_BORN, TO_BORN, TO_BORN, TO_BORN, TO_BORN, TO_DIE, TO_EXIST, TO_BORN, TO_BORN];
+
+function getRule(ruleId) {
+    switch (ruleId) {
+        case 1:
+            return RULE_1;
+        case 2:
+            return RULE_2;
+        case 3:
+            return RULE_3;
+        case 4:
+            return RULE_4;
+    }
+}
 
 function Color(red, green, blue, alpha) {
     this.red = red;
@@ -82,10 +98,11 @@ function Cell(flagIsAlive) {
     this.born = function() {
         this.isAlive = true;
     };
-    this.checkSurbive = function(nAliveAround) {
-        return RULE[nAliveAround];
+    this.checkSurbive = function(nAliveAround, ruleId) {
+        rule = getRule(ruleId);
+        return rule[nAliveAround];
     };
-    this.predict = function(cells) {
+    this.predict = function(cells, ruleId) {
         var nAliveAround = 0;
         for (var i = 0; i < cells.length; ++i) {
             if (cells[i].isAlive) {
@@ -93,7 +110,7 @@ function Cell(flagIsAlive) {
             }
         }
         // console.log("nAliveAround = " + nAliveAround);
-        this.next = this.checkSurbive(nAliveAround);
+        this.next = this.checkSurbive(nAliveAround, ruleId);
         this.updateColor(cells);
     };
     this.changeGeneration = function() {
